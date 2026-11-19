@@ -1,0 +1,13 @@
+{
+  "name": "forum-kelompok-pkm-ftii-uhamka",
+  "version": "1.0.0",
+  "description": "Web App Forum Pencarian Kelompok PKM Fakultas Teknologi Industri dan Informatika (FTII) UHAMKA",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

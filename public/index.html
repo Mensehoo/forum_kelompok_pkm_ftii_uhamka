@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PKM FTII UHAMKA — Forum Kelompok</title>
+  <meta name="description" content="Forum kelompok PKM mahasiswa FTII UHAMKA." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Minimal Sticky Topbar -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#" class="brand">
+        <span class="brand-mark" aria-hidden="true">F</span>
+        <span class="brand-name">PKM FTII UHAMKA</span>
+      </a>
+
+      <div class="topbar-actions">
+        <button type="button" class="btn-ghost" id="btnOpenGuide" title="Daftar 10 Skema PKM">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Skema</span>
+        </button>
+        <button type="button" class="btn-primary" id="btnOpenPostModal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Posting</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container page">
+    <!-- Notion-style Page Header -->
+    <section class="page-head">
+      <div class="page-head-row">
+        <div>
+          <h1>Forum Kelompok PKM</h1>
+          <p class="page-meta" id="pageMeta">FTII UHAMKA · Memuat...</p>
+        </div>
+        <div class="quick-create-pair">
+          <button type="button" class="btn-outline" id="btnHeroNoIdea">Belum punya judul?</button>
+          <button type="button" class="btn-primary" id="btnHeroHasIdea">+ Cari Anggota</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notion Database Views & Controls -->
+    <section class="toolbar" aria-label="Filter dan pencarian">
+      <div class="view-tabs" role="tablist" aria-label="Tampilan kategori">
+        <button type="button" class="view-tab active" data-tab="all" role="tab" aria-selected="true">
+          Semua <span class="tab-count" id="countAll">0</span>
+        </button>
+        <button type="button" class="view-tab" data-tab="open" role="tab" aria-selected="false">
+          Cari Tim <span class="tab-count" id="countOpen">0</span>
+        </button>
+        <button type="button" class="view-tab" data-tab="with-idea" role="tab" aria-selected="false">
+          Punya Judul <span class="tab-count" id="countWithIdea">0</span>
+        </button>
+        <button type="button" class="view-tab" data-tab="no-idea" role="tab" aria-selected="false">
+          Belum Ada Judul <span class="tab-count" id="countWithoutIdea">0</span>
+        </button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-field">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="searchInput" placeholder="Cari nama, judul, prodi, keahlian..." autocomplete="off" />
+        </div>
+
+        <div class="filter-group">
+          <select id="filterProdi" aria-label="Filter Prodi">
+            <option value="">Prodi</option>
+            <option value="S1 Teknik Informatika">Teknik Informatika</option>
+            <option value="S1 Teknik Elektro">Teknik Elektro</option>
+            <option value="S1 Teknik Mesin">Teknik Mesin</option>
+            <option value="S1 Sistem dan Teknologi Informasi">Sistem &amp; Tek. Informasi</option>
+            <option value="D4 Teknologi Rekayasa Mekatronika">Tek. Rekayasa Mekatronika</option>
+          </select>
+
+          <select id="filterSkema" aria-label="Filter Skema">
+            <option value="">Skema</option>
+            <option value="__NONE__">Belum ada skema</option>
+            <option value="PKM-RE">PKM-RE</option>
+            <option value="PKM-RSH">PKM-RSH</option>
+            <option value="PKM-K">PKM-K</option>
+            <option value="PKM-PM">PKM-PM</option>
+            <option value="PKM-PI">PKM-PI</option>
+            <option value="PKM-KC">PKM-KC</option>
+            <option value="PKM-KI">PKM-KI</option>
+            <option value="PKM-VGK">PKM-VGK</option>
+            <option value="PKM-GFT">PKM-GFT</option>
+            <option value="PKM-AI">PKM-AI</option>
+          </select>
+
+          <select id="filterAngkatan" aria-label="Filter Angkatan">
+            <option value="">Angkatan</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+          </select>
+
+          <select id="sortSelect" aria-label="Urutkan">
+            <option value="newest">Terbaru</option>
+            <option value="open-first">Cari tim dulu</option>
+            <option value="oldest">Terlama</option>
+          </select>
+
+          <button type="button" class="btn-reset hidden" id="btnResetFilters">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="feed">
+      <div class="posts-grid" id="postsGrid" aria-live="polite"></div>
+
+      <div class="empty-state hidden" id="emptyState">
+        <p class="empty-title">Tidak ada postingan</p>
+        <div class="empty-actions">
+          <button type="button" class="btn-outline" id="btnEmptyReset">Reset filter</button>
+          <button type="button" class="btn-primary" id="btnEmptyCreate">+ Buat postingan</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Buat Postingan -->
+  <div class="modal-backdrop hidden" id="postModal" role="dialog" aria-modal="true" aria-labelledby="postModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2 id="postModalTitle">Posting Baru</h2>
+        <button type="button" class="icon-btn" data-close-modal="postModal" aria-label="Tutup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form id="postForm" class="modal-body" novalidate>
+        <div class="segmented" role="radiogroup" aria-label="Status judul PKM">
+          <button type="button" class="seg-btn active" data-mode="cari-anggota">Punya Judul</button>
+          <button type="button" class="seg-btn" data-mode="cari-kelompok">Belum Punya Judul</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="inputNama">Nama</label>
+            <input type="text" id="inputNama" name="nama" placeholder="Nama lengkap" required maxlength="80" />
+          </div>
+
+          <div class="field">
+            <label for="inputWhatsapp">WhatsApp</label>
+            <input type="tel" id="inputWhatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required maxlength="20" />
+            <span class="field-hint hidden" id="waPreviewHint"></span>
+          </div>
+
+          <div class="field">
+            <label for="inputProdi">Prodi FTII</label>
+            <select id="inputProdi" name="prodi" required>
+              <option value="">Pilih prodi</option>
+              <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+              <option value="S1 Teknik Elektro">S1 Teknik Elektro</option>
+              <option value="S1 Teknik Mesin">S1 Teknik Mesin</option>
+              <option value="S1 Sistem dan Teknologi Informasi">S1 Sistem dan Teknologi Informasi</option>
+              <option value="D4 Teknologi Rekayasa Mekatronika">D4 Teknologi Rekayasa Mekatronika</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="inputAngkatan">Angkatan</label>
+            <select id="inputAngkatan" name="angkatan" required>
+              <option value="">Pilih tahun</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pkm-section" id="pkmFieldsBox">
+          <div class="field">
+            <label for="inputJudul">Judul PKM <span class="muted">(opsional)</span></label>
+            <input type="text" id="inputJudul" name="judulPkm" placeholder="Tulis judul atau topik PKM..." maxlength="220" />
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="inputSkema">Skema <span class="muted">(opsional)</span></label>
+              <select id="inputSkema" name="skemaPkm">
+                <option value="">Belum ada skema</option>
+                <option value="PKM-RE">PKM-RE — Riset Eksakta</option>
+                <option value="PKM-RSH">PKM-RSH — Riset Sosial Humaniora</option>
+                <option value="PKM-K">PKM-K — Kewirausahaan</option>
+                <option value="PKM-PM">PKM-PM — Pengabdian Masyarakat</option>
+                <option value="PKM-PI">PKM-PI — Penerapan IPTEK</option>
+                <option value="PKM-KC">PKM-KC — Karsa Cipta</option>
+                <option value="PKM-KI">PKM-KI — Karya Inovatif</option>
+                <option value="PKM-VGK">PKM-VGK — Video Gagasan Konstruktif</option>
+                <option value="PKM-GFT">PKM-GFT — Gagasan Futuristik Tertulis</option>
+                <option value="PKM-AI">PKM-AI — Artikel Ilmiah</option>
+              </select>
+            </div>
+
+            <div class="field" id="slotGroup">
+              <label for="inputSlot">Butuh Anggota <span class="muted">(opsional)</span></label>
+              <select id="inputSlot" name="slotDibutuhkan">
+                <option value="">Fleksibel</option>
+                <option value="1">1 orang</option>
+                <option value="2">2 orang</option>
+                <option value="3">3 orang</option>
+                <option value="4">4 orang</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="inputKebutuhan" id="labelKebutuhan">Catatan / Keahlian <span class="muted">(opsional)</span></label>
+          <textarea id="inputKebutuhan" name="kebutuhan" rows="2" maxlength="500" placeholder="Misal: butuh anak Elektro (IoT) & STI (UI/proposal)"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="inputPin">PIN Kelola <span class="muted">(opsional, 4–6 angka untuk hapus/tutup dari HP lain)</span></label>
+          <input type="password" inputmode="numeric" id="inputPin" name="pin" placeholder="••••" maxlength="6" autocomplete="new-password" />
+        </div>
+
+        <div class="form-error hidden" id="formError" role="alert"></div>
+
+        <div class="modal-foot">
+          <button type="button" class="btn-outline" data-close-modal="postModal">Batal</button>
+          <button type="submit" class="btn-primary" id="btnSubmitPost">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Daftar Skema PKM -->
+  <div class="modal-backdrop hidden" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2 id="guideModalTitle">10 Skema PKM</h2>
+        <button type="button" class="icon-btn" data-close-modal="guideModal" aria-label="Tutup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="guide-list">
+          <li><span class="tag tag-re">PKM-RE</span><span>Riset Eksakta — penelitian sains &amp; teknik</span></li>
+          <li><span class="tag tag-rsh">PKM-RSH</span><span>Riset Sosial Humaniora — isu sosial &amp; budaya</span></li>
+          <li><span class="tag tag-k">PKM-K</span><span>Kewirausahaan — produk kreatif berorientasi profit</span></li>
+          <li><span class="tag tag-pm">PKM-PM</span><span>Pengabdian Masyarakat — mitra non-profit</span></li>
+          <li><span class="tag tag-pi">PKM-PI</span><span>Penerapan IPTEK — solusi teknologi untuk UMKM/industri</span></li>
+          <li><span class="tag tag-kc">PKM-KC</span><span>Karsa Cipta — prototipe / karya fungsional inovatif</span></li>
+          <li><span class="tag tag-ki">PKM-KI</span><span>Karya Inovatif — produk skala penuh siap pakai</span></li>
+          <li><span class="tag tag-vgk">PKM-VGK</span><span>Video Gagasan Konstruktif — gagasan SDGs via video</span></li>
+          <li><span class="tag tag-gft">PKM-GFT</span><span>Gagasan Futuristik Tertulis — konsep visioner jangka panjang</span></li>
+          <li><span class="tag tag-ai">PKM-AI</span><span>Artikel Ilmiah — publikasi hasil kegiatan/riset</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Kelola Postingan -->
+  <div class="modal-backdrop hidden" id="manageModal" role="dialog" aria-modal="true" aria-labelledby="manageModalTitle">
+    <div class="modal-sheet modal-sm">
+      <div class="modal-head">
+        <h2 id="manageModalTitle">Kelola Postingan</h2>
+        <button type="button" class="icon-btn" data-close-modal="manageModal" aria-label="Tutup">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="manage-owner" id="managePostOwnerName"></p>
+        <div class="field hidden" id="managePinWrap">
+          <label for="managePinInput">PIN Postingan</label>
+          <input type="password" inputmode="numeric" id="managePinInput" placeholder="Masukkan PIN" maxlength="6" />
+        </div>
+        <div class="form-error hidden" id="manageError" role="alert"></div>
+        <div class="manage-stack">
+          <button type="button" class="btn-primary btn-full" id="btnToggleStatus">Tandai Tim Lengkap</button>
+          <button type="button" class="btn-danger btn-full" id="btnDeletePost">Hapus Postingan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
